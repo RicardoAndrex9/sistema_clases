@@ -125,6 +125,24 @@
           </div>
         </div>
       </div>
+
+      {% comment %}Menu sobretiempo{% endcomment %}
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <div class="flex-shrink-0">
+                <div class="bg-danger bg-opacity-10 p-3 rounded-3"></div>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5 class="card-title mb-0">Sobretiempo</h5>
+              </div>
+            </div>
+            <p class="card-text text-muted mb-4"></p>
+            <a href="{% url 'empleados:sobretiempo_list' %}" class="btn btn-danger w-100"><i class="fas fa-arrow-right me-2"></i>Gestionar Sobretiempo</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -6,8 +6,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from .models import Cargo, Departamento, TipoContrato, Empleado, Rol
-from .forms import CargoForm, DepartamentoForm, TipoContratoForm, EmpleadoForm, RolForm
+from .models import (
+    Cargo,
+    Departamento,
+    TipoContrato,
+    Empleado,
+    Rol,
+    Sobretiempo,
+    TipoSobretiempo,
+)
+from .forms import (
+    CargoForm,
+    DepartamentoForm,
+    TipoContratoForm,
+    EmpleadoForm,
+    RolForm,
+    SobretiempoForm,
+)
 from django.http import HttpResponseForbidden
 
 
@@ -405,3 +420,68 @@ def rol_delete(request, id):
 @login_required
 def dashboard(request):
     return render(request, "dashboard.html")
+
+
+# Vistas CRUD para la gestión de Sobretiempo
+
+
+# Vista para listar todos los registros de sobretiempo.
+@login_required
+def sobretiempo_list(request):
+    sobretiempos = Sobretiempo.objects.all()
+    empleados = Empleado.objects.all()
+    tipos = TipoSobretiempo.objects.all()
+    # ...filtros si quieres...
+    context = {
+        "sobretiempos": sobretiempos,
+        "empleados": empleados,
+        "tipos": tipos,
+    }
+    return render(request, "sobretiempo/list.html", context)
+
+
+# Vista para crear un nuevo registro
+# Muestra un formulario y si es válido guarda el registro y redirige al listado.
+@login_required
+def sobretiempo_create(request):
+    if request.method == "POST":
+        form = SobretiempoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Sobretiempo creado exitosamente")
+            return redirect("empleados:sobretiempo_list")
+    else:
+        form = SobretiempoForm()
+    return render(
+        request, "sobretiempo/form.html", {"form": form, "title": "Crear Sobretiempo"}
+    )
+
+
+# Vista para actualizar un registro
+@login_required
+def sobretiempo_update(request, id):
+    sobretiempo = get_object_or_404(Sobretiempo, pk=id)
+    if request.method == "POST":
+        form = SobretiempoForm(request.POST, instance=sobretiempo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Sobretiempo actualizado exitosamente")
+            return redirect("empleados:sobretiempo_list")
+    else:
+        form = SobretiempoForm(instance=sobretiempo)
+    return render(
+        request,
+        "sobretiempo/form.html",
+        {"form": form, "title": "Actualizar Sobretiempo"},
+    )
+
+
+# Vista para eliminar
+@login_required
+def sobretiempo_delete(request, id):
+    sobretiempo = get_object_or_404(Sobretiempo, pk=id)
+    if request.method == "POST":
+        sobretiempo.delete()
+        messages.success(request, "Sobretiempo eliminado exitosamente")
+        return redirect("empleados:sobretiempo_list")
+    return render(request, "sobretiempo/delete.html", {"sobretiempo": sobretiempo})

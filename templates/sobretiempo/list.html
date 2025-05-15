@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <h2>Listado de Sobretiempos</h2>
+  <a href="{% url 'empleados:sobretiempo_create' %}" class="btn btn-primary mb-3">Nuevo Sobretiempo</a>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Empleado</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Número de horas</th>
+        <th>Valor</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sobretiempos %}
+        <tr>
+          <td>{{ s.empleado.nombre }}</td>
+          <td>{{ s.tipo_sobretiempo.descripcion }}</td>
+          <td>{{ s.fecha_sobretiempo }}</td>
+          <td>{{ s.numero_horas }}</td>
+          <td>{{ s.valor }}</td>
+          <td>
+            {% if s.is_active %}
+              Activo
+            {% else %}
+              Inactivo
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'empleados:sobretiempo_update' s.id %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'empleados:sobretiempo_delete' s.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">No hay registros.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

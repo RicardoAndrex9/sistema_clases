@@ -103,3 +103,24 @@ class Rol(models.Model):
 
     def __str__(self):
         return f"Rol de {self.empleado.nombre} - {self.aniomes}"
+
+
+# Modelo sobretiempo Examen
+class TipoSobretiempo(models.Model):
+    descripcion = models.CharField(max_length=100)
+    factor = models.DecimalField(max_digits=3, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.descripcion} - Factor: {self.factor}"
+
+
+class Sobretiempo(models.Model):
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    tipo_sobretiempo = models.ForeignKey(TipoSobretiempo, on_delete=models.CASCADE)
+    fecha_sobretiempo = models.DateField()
+    numero_horas = models.DecimalField(max_digits=5, decimal_places=2)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Sobretiempo de {self.empleado.nombre} - {self.fecha_sobretiempo}"

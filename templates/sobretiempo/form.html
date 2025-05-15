@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <h2>{{ title }}</h2>
+  <form method="post" id="sobretiempo-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'empleados:sobretiempo_list' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+
+  <script>
+  // Cálculo automitico de valor
+
+  
+  function calcularValor() {
+      const empleadoSelect = document.getElementById('id_empleado');
+      const tipoSelect = document.getElementById('id_tipo_sobretiempo');
+      const horasInput = document.getElementById('id_numero_horas');
+      const valorInput = document.getElementById('id_valor');
+
+      const sueldos = {};
+
+      {% for empleado in form.fields.empleado.queryset %}
+				// con queryset consulta a la base de datos
+        sueldos[{{ empleado.id }}] = {{ empleado.sueldo }};
+      {% endfor %}
+
+
+      const factores = {};
+      {% for tipo in form.fields.tipo_sobretiempo.queryset %}
+        factores[{{ tipo.id }}] = {{ tipo.factor }};
+      {% endfor %}
+
+      function actualizarValor() {
+          const empleadoId = empleadoSelect.value;
+          const tipoId = tipoSelect.value;
+          const horas = parseFloat(horasInput.value);
+
+          if (empleadoId && tipoId && horas > 0) {
+              const sueldo = sueldos[empleadoId];
+              const factor = factores[tipoId];
+              if (sueldo && factor) {
+                  const valor = factor * (sueldo / 240) * horas;
+                  valorInput.value = valor.toFixed(2);
+              }
+          }
+      }
+
+      empleadoSelect.addEventListener('change', actualizarValor);
+      tipoSelect.addEventListener('change', actualizarValor);
+      horasInput.addEventListener('input', actualizarValor);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      calcularValor();
+			
+      document.getElementById('sobretiempo-form').addEventListener('submit', function(e) {
+          const horas = parseFloat(document.getElementById('id_numero_horas').value);
+          if (horas <= 0) {
+              alert('El número de horas debe ser mayor a 0.');
+              e.preventDefault();
+          }
+      });
+  });
+	</script>
+{% endblock %}

@@ -53,4 +53,19 @@ urlpatterns = [
     path("roles/crear/", views.rol_create, name="rol_create"),
     path("roles/<int:id>/editar/", views.rol_update, name="rol_update"),
     path("roles/<int:id>/eliminar/", views.rol_delete, name="rol_delete"),
+    
+    
+    # URLs creadas para el examen
+    path("sobretiempo/", views.sobretiempo_list, name="sobretiempo_list"),
+    path("sobretiempo/crear/", views.sobretiempo_create, name="sobretiempo_create"),
+    path(
+        "sobretiempo/<int:id>/editar/",
+        views.sobretiempo_update,
+        name="sobretiempo_update",
+    ),
+    path(
+        "sobretiempo/<int:id>/eliminar/",
+        views.sobretiempo_delete,
+        name="sobretiempo_delete",
+    ),
 ]

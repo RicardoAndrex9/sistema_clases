@@ -1,6 +1,15 @@
 from django.forms import ModelForm, TextInput, NumberInput, Select, DateInput
 from django import forms
-from .models import Cargo, Departamento, TipoContrato, Empleado, Rol
+
+from .models import (
+    Cargo,
+    Departamento,
+    TipoContrato,
+    Empleado,
+    Rol,
+    Sobretiempo,
+    TipoSobretiempo,
+)
 
 
 # Formulario para el modelo Cargo. Excluye el campo 'user' y aplica estilos CSS a los widgets.
@@ -65,3 +74,12 @@ class RolForm(ModelForm):
             "horas_extra": NumberInput(attrs={"class": "form-control"}),
             "bono": NumberInput(attrs={"class": "form-control"}),
         }
+
+
+# Formulario para el modelo Sobretiempo.
+
+
+class SobretiempoForm(forms.ModelForm):
+    class Meta:
+        model = Sobretiempo
+        fields = "__all__"
