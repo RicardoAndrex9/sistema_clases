@@ -3,6 +3,7 @@ from django import forms
 from .models import Cargo, Departamento, TipoContrato, Empleado, Rol
 
 
+# Formulario para el modelo Cargo. Excluye el campo 'user' y aplica estilos CSS a los widgets.
 class CargoForm(ModelForm):
     class Meta:
         model = Cargo
@@ -12,6 +13,7 @@ class CargoForm(ModelForm):
         }
 
 
+# Formulario para el modelo Departamento. Excluye el campo 'user' y aplica estilos CSS a los widgets.
 class DepartamentoForm(ModelForm):
     class Meta:
         model = Departamento
@@ -21,6 +23,7 @@ class DepartamentoForm(ModelForm):
         }
 
 
+# Formulario para el modelo TipoContrato. Excluye el campo 'user' y aplica estilos CSS a los widgets.
 class TipoContratoForm(ModelForm):
     class Meta:
         model = TipoContrato
@@ -31,6 +34,7 @@ class TipoContratoForm(ModelForm):
         }
 
 
+# Formulario para el modelo Empleado. Excluye el campo 'user' y aplica estilos CSS a los widgets.
 class EmpleadoForm(ModelForm):
     class Meta:
         model = Empleado
@@ -48,6 +52,7 @@ class EmpleadoForm(ModelForm):
         }
 
 
+# Formulario para el modelo Rol. Excluye el campo 'user' y aplica estilos CSS a los widgets.
 class RolForm(ModelForm):
     class Meta:
         model = Rol

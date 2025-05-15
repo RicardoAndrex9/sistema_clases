@@ -11,12 +11,14 @@ from .forms import CargoForm, DepartamentoForm, TipoContratoForm, EmpleadoForm, 
 from django.http import HttpResponseForbidden
 
 
+# Vista inicial del sistema. Redirige al dashboard si el usuario está autenticado, o muestra la página de inicio si no lo está.
 def home(request):
     if request.user.is_authenticated:
         return redirect("empleados:dashboard")
     return render(request, "home.html")
 
 
+# Vista para registrar nuevos usuarios. Verifica contraseñas y maneja errores de usuario duplicado.
 def signup(request):
     if request.method == "GET":
         return render(request, "signup.html", {"form": UserCreationForm})
@@ -50,6 +52,7 @@ def signup(request):
             )
 
 
+# Vista para iniciar sesión. Autentica al usuario y lo redirige al dashboard si las credenciales son correctas.
 def login_view(request):
     if request.method == "POST":
         user = authenticate(
@@ -72,6 +75,7 @@ def login_view(request):
     return render(request, "login.html", {"form": AuthenticationForm})
 
 
+# Vista para cerrar sesión. Redirige al usuario a la página de inicio.
 @login_required
 def logout_view(request):
     logout(request)
@@ -79,6 +83,7 @@ def logout_view(request):
 
 
 # Vistas para Cargo
+# Vista para listar cargos. Permite búsqueda y paginación.
 @login_required
 def cargo_list(request):
     query = request.GET.get("q", None)
@@ -88,7 +93,7 @@ def cargo_list(request):
         cargos = Cargo.objects.all()
 
     # Paginación
-    paginator = Paginator(cargos, 5)  # 6 items por página
+    paginator = Paginator(cargos, 5)  # 5 items por página
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
@@ -96,6 +101,7 @@ def cargo_list(request):
     return render(request, "cargo/list.html", context)
 
 
+# Vista para crear un nuevo cargo. Asocia el cargo al usuario actual.
 @login_required
 def cargo_create(request):
     context = {"title": "Crear Cargo"}
@@ -113,6 +119,7 @@ def cargo_create(request):
     return render(request, "cargo/form.html", context)
 
 
+# Vista para actualizar un cargo existente. Verifica que el usuario sea el propietario del cargo.
 @login_required
 def cargo_update(request, id):
     context = {"title": "Actualizar Cargo"}
@@ -131,6 +138,7 @@ def cargo_update(request, id):
     return render(request, "cargo/form.html", context)
 
 
+# Vista para eliminar un cargo existente. Redirige a la lista de cargos tras la eliminación.
 @login_required
 def cargo_delete(request, id):
     cargo = get_object_or_404(Cargo, pk=id)
@@ -140,6 +148,7 @@ def cargo_delete(request, id):
 
 
 # Vistas para Departamento
+# Vista para listar departamentos. Permite búsqueda y paginación.
 @login_required
 def departamento_list(request):
     query = request.GET.get("q", None)
@@ -159,6 +168,7 @@ def departamento_list(request):
     return render(request, "departamento/list.html", context)
 
 
+# Vista para crear un nuevo departamento. Asocia el departamento al usuario actual.
 @login_required
 def departamento_create(request):
     context = {"title": "Crear Departamento"}
@@ -176,6 +186,7 @@ def departamento_create(request):
     return render(request, "departamento/form.html", context)
 
 
+# Vista para actualizar un departamento existente. Verifica que el usuario sea el propietario del departamento.
 @login_required
 def departamento_update(request, id):
     context = {"title": "Actualizar Departamento"}
@@ -194,6 +205,7 @@ def departamento_update(request, id):
     return render(request, "departamento/form.html", context)
 
 
+# Vista para eliminar un departamento existente. Redirige a la lista de departamentos tras la eliminación.
 @login_required
 def departamento_delete(request, id):
     departamento = get_object_or_404(Departamento, pk=id)
@@ -203,6 +215,7 @@ def departamento_delete(request, id):
 
 
 # Vistas para TipoContrato
+# Vista para listar tipos de contrato. Permite búsqueda y paginación.
 @login_required
 def tipo_contrato_list(request):
     query = request.GET.get("q", None)
@@ -222,6 +235,7 @@ def tipo_contrato_list(request):
     return render(request, "tipo_contrato/list.html", context)
 
 
+# Vista para crear un nuevo tipo de contrato. Asocia el tipo de contrato al usuario actual.
 @login_required
 def tipo_contrato_create(request):
     context = {"title": "Crear Tipo de Contrato"}
@@ -239,6 +253,7 @@ def tipo_contrato_create(request):
     return render(request, "tipo_contrato/form.html", context)
 
 
+# Vista para actualizar un tipo de contrato existente.
 @login_required
 def tipo_contrato_update(request, id):
     context = {"title": "Actualizar Tipo de Contrato"}
@@ -255,6 +270,7 @@ def tipo_contrato_update(request, id):
     return render(request, "tipo_contrato/form.html", context)
 
 
+# Vista para eliminar un tipo de contrato existente. Redirige a la lista de tipos de contrato tras la eliminación.
 @login_required
 def tipo_contrato_delete(request, id):
     tipo = get_object_or_404(TipoContrato, pk=id)
@@ -264,6 +280,7 @@ def tipo_contrato_delete(request, id):
 
 
 # Vistas para Empleado
+# Vista para listar empleados. Permite búsqueda y paginación.
 @login_required
 def empleado_list(request):
     query = request.GET.get("q", None)
@@ -281,6 +298,7 @@ def empleado_list(request):
     return render(request, "empleado/list.html", context)
 
 
+# Vista para crear un nuevo empleado.
 @login_required
 def empleado_create(request):
     context = {"title": "Crear Empleado"}
@@ -296,6 +314,7 @@ def empleado_create(request):
     return render(request, "empleado/form.html", context)
 
 
+# Vista para actualizar un empleado existente.
 @login_required
 def empleado_update(request, id):
     context = {"title": "Actualizar Empleado"}
@@ -312,6 +331,7 @@ def empleado_update(request, id):
     return render(request, "empleado/form.html", context)
 
 
+# Vista para eliminar un empleado existente. Redirige a la lista de empleados tras la eliminación.
 @login_required
 def empleado_delete(request, id):
     empleado = get_object_or_404(Empleado, pk=id)
@@ -321,6 +341,7 @@ def empleado_delete(request, id):
 
 
 # Vistas para Rol
+# Vista para listar roles de pago. Permite búsqueda y paginación.
 @login_required
 def rol_list(request):
     query = request.GET.get("q", None)
@@ -338,6 +359,7 @@ def rol_list(request):
     return render(request, "rol/list.html", context)
 
 
+# Vista para crear un nuevo rol de pago.
 @login_required
 def rol_create(request):
     context = {"title": "Crear Rol de Pago"}
@@ -353,6 +375,7 @@ def rol_create(request):
     return render(request, "rol/form.html", context)
 
 
+# Vista para actualizar un rol de pago existente.
 @login_required
 def rol_update(request, id):
     context = {"title": "Actualizar Rol de Pago"}
@@ -369,6 +392,7 @@ def rol_update(request, id):
     return render(request, "rol/form.html", context)
 
 
+# Vista para eliminar un rol de pago existente. Redirige a la lista de roles tras la eliminación.
 @login_required
 def rol_delete(request, id):
     rol = get_object_or_404(Rol, pk=id)
@@ -377,6 +401,7 @@ def rol_delete(request, id):
     return redirect("empleados:rol_list")
 
 
+# Vista para mostrar el dashboard principal del sistema.
 @login_required
 def dashboard(request):
     return render(request, "dashboard.html")
