@@ -1,45 +1,37 @@
-{% extends 'base.html' %} 
+<!-- Formularios para editar, crear y actualizar registros -->
+<!-- Se renderiza cuando el usuario accede a una vista de creación o edición, como cargo_create o cargo_update. -->
+
+{% extends 'base.html' %}
 
 {% block title %}
-
-{{ title }}
-
-{% endblock %} 
+  {{ title }}
+{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="mb-0">{{ title }}</h5>
-      </div>
-      <div class="card-body">
-        <form method="post">
-          {% csrf_token %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">{{ title }}</h5>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
 
-          <div class="mb-3">
-            <label for="{{ form.descripcion.id_for_label }}" class="form-label"
-              >Descripción</label
-            >
-            {{ form.descripcion }} {% if form.descripcion.errors %}
-            <div class="alert alert-danger">{{ form.descripcion.errors }}</div>
-            {% endif %}
-          </div>
+            <div class="mb-3">
+              <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+              {{ form.descripcion }} {% if form.descripcion.errors %}
+                <div class="alert alert-danger">{{ form.descripcion.errors }}</div>
+              {% endif %}
+            </div>
 
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i> Guardar
-            </button>
-            <a
-              href="{% url 'empleados:cargo_list' %}"
-              class="btn btn-secondary"
-            >
-              <i class="fas fa-times"></i> Cancelar
-            </a>
-          </div>
-        </form>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+              <a href="{% url 'empleados:cargo_list' %}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
