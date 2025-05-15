@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{{ title }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">{{ title }}</h5>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="{{ form.empleado.id_for_label }}" class="form-label"
+                >Empleado</label
+              >
+              {{ form.empleado }} {% if form.empleado.errors %}
+              <div class="alert alert-danger">{{ form.empleado.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="{{ form.aniomes.id_for_label }}" class="form-label"
+                >Año/Mes</label
+              >
+              {{ form.aniomes }} {% if form.aniomes.errors %}
+              <div class="alert alert-danger">{{ form.aniomes.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label for="{{ form.sueldo.id_for_label }}" class="form-label"
+                >Sueldo</label
+              >
+              {{ form.sueldo }} {% if form.sueldo.errors %}
+              <div class="alert alert-danger">{{ form.sueldo.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label
+                for="{{ form.horas_extra.id_for_label }}"
+                class="form-label"
+                >Horas Extra</label
+              >
+              {{ form.horas_extra }} {% if form.horas_extra.errors %}
+              <div class="alert alert-danger">
+                {{ form.horas_extra.errors }}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <label for="{{ form.bono.id_for_label }}" class="form-label"
+                >Bono</label
+              >
+              {{ form.bono }} {% if form.bono.errors %}
+              <div class="alert alert-danger">{{ form.bono.errors }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+            <a href="{% url 'empleados:rol_list' %}" class="btn btn-secondary">
+              <i class="fas fa-times"></i> Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

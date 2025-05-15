@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">{{ title }}</h5>
+      <a href="{% url 'empleados:rol_create' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Nuevo Rol de Pago
+      </a>
+    </div>
+    <div class="card-body">
+      <!-- Barra de búsqueda -->
+      <form method="get" class="mb-4">
+        <div class="input-group">
+          <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Buscar por nombre de empleado..."
+            value="{{ request.GET.q }}"
+          />
+          <button class="btn btn-outline-secondary" type="submit">
+            <i class="fas fa-search"></i> Buscar
+          </button>
+        </div>
+      </form>
+
+      <!-- Tabla de roles -->
+      {% if page_obj %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Empleado</th>
+              <th>Año/Mes</th>
+              <th>Sueldo</th>
+              <th>Horas Extra</th>
+              <th>Bono</th>
+              <th>Total Ingresos</th>
+              <th>IESS</th>
+              <th>Total Descuentos</th>
+              <th>Neto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rol in page_obj %}
+            <tr>
+              <td>{{ rol.id }}</td>
+              <td>{{ rol.empleado.nombre }}</td>
+              <td>{{ rol.aniomes|date:"Y-m" }}</td>
+              <td>{{ rol.sueldo }}</td>
+              <td>{{ rol.horas_extra }}</td>
+              <td>{{ rol.bono }}</td>
+              <td>{{ rol.tot_ing }}</td>
+              <td>{{ rol.iess }}</td>
+              <td>{{ rol.tot_des }}</td>
+              <td>{{ rol.neto }}</td>
+              <td>
+                <a
+                  href="{% url 'empleados:rol_update' rol.id %}"
+                  class="btn btn-sm btn-warning"
+                >
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a
+                  href="{% url 'empleados:rol_delete' rol.id %}"
+                  class="btn btn-sm btn-danger"
+                  onclick="return confirm('¿Está seguro de eliminar este rol de pago?')"
+                >
+                  <i class="fas fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="11" class="text-center">
+                No hay roles de pago registrados
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginación -->
+      {% include 'pagination.html' %}
+
+      {% else %}
+      <div class="alert alert-info">
+        No hay roles registrados.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
