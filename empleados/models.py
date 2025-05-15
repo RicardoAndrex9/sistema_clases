@@ -50,14 +50,13 @@ class Rol(models.Model):
     sueldo = models.DecimalField(max_digits=10, decimal_places=2)
     horas_extra = models.DecimalField(max_digits=10, decimal_places=2)
     bono = models.DecimalField(max_digits=10, decimal_places=2)
-    iess = models.DecimalField(max_digits=10, decimal_places=2)
-    tot_ing = models.DecimalField(max_digits=10, decimal_places=2)
-    tot_des = models.DecimalField(max_digits=10, decimal_places=2)
-    neto = models.DecimalField(max_digits=10, decimal_places=2)
+    iess = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    tot_ing = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    tot_des = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    neto = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        # Cálculo automático de los campos
         self.tot_ing = self.sueldo + self.horas_extra + self.bono
         self.iess = self.sueldo * Decimal("0.0945")  # 9.45% del sueldo
         self.tot_des = self.iess
