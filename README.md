@@ -21,7 +21,7 @@ Este es un proyecto de Django para la gestión de empleados, cargos, departament
 1. Clona este repositorio:
 
     ```bash
-    git clone <URL_DEL_REPOSITORIO>
+    git clone https://github.com/RicardoAndrex9/sistema_clases
     cd sistema_clases
     ```
 
