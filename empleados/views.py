@@ -88,7 +88,7 @@ def cargo_list(request):
         cargos = Cargo.objects.all()
 
     # Paginación
-    paginator = Paginator(cargos, 10)  # 10 items por página
+    paginator = Paginator(cargos, 5)  # 6 items por página
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
@@ -151,7 +151,7 @@ def departamento_list(request):
         departamentos = Departamento.objects.filter(user=request.user)
 
     # Paginación
-    paginator = Paginator(departamentos, 10)
+    paginator = Paginator(departamentos, 5)
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
@@ -214,7 +214,7 @@ def tipo_contrato_list(request):
         tipos = TipoContrato.objects.filter(user=request.user)
 
     # Paginación
-    paginator = Paginator(tipos, 10)
+    paginator = Paginator(tipos, 5)
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
@@ -273,7 +273,7 @@ def empleado_list(request):
         empleados = Empleado.objects.all()
 
     # Paginación
-    paginator = Paginator(empleados, 10)
+    paginator = Paginator(empleados, 5)
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
@@ -330,7 +330,7 @@ def rol_list(request):
         roles = Rol.objects.all()
 
     # Paginación
-    paginator = Paginator(roles, 10)
+    paginator = Paginator(roles, 5)
     page = request.GET.get("page")
     page_obj = paginator.get_page(page)
 
